@@ -4,7 +4,7 @@ const router= require("express").Router();
 
 router.get("/", async function(req, res){
     const n= req.query.n;
-    const productos= n? await Producto.find().limit(n): await Producto.find();
+    const productos= n? await Producto.aggregate([ { $sample: { size: parseInt(n) } } ]): await Producto.find();
     res.status(200).send(productos);
 });
 
